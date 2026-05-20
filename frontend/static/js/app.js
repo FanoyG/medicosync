@@ -1,5 +1,6 @@
 // ================= CONFIG =================
-const API_BASE = "http://127.0.0.1:8000";
+// Define your base address just once
+const API_BASE_URL = "https://medicosync-backend.onrender.com";
 
 // ================= UI TOGGLE =================
 const sign_in_btn = document.querySelector("#sign-in-btn");
@@ -11,7 +12,6 @@ sign_in_btn.addEventListener("click", () => container.classList.remove("sign-up-
 
 // ================= TOKEN (UPDATED TO PRODUCTION STANDARD) =================
 const token = {
-    // Syncing the storage key directly with your dashboard route guard
     set : (t)  => localStorage.setItem("access_token", t),
     get : ()   => localStorage.getItem("access_token"),
     clear: ()  => localStorage.removeItem("access_token"),
@@ -43,7 +43,8 @@ document.querySelector("#login-form").addEventListener("submit", async (e) => {
     const password = document.querySelector("#login-password").value;
 
     try {
-        const res  = await fetch(`${API_BASE}/auth/login`, {
+        // FIXED: Added /api prefix
+        const res  = await fetch(`${API_BASE_URL}/api/auth/login`, {
             method  : "POST",
             headers : { "Content-Type": "application/json" },
             body    : JSON.stringify({ email, password }),
@@ -59,8 +60,8 @@ document.querySelector("#login-form").addEventListener("submit", async (e) => {
         // Save token to 'access_token' via the helper abstraction
         token.set(data.access_token);
 
-        // Clean relative redirect straight to your FastAPI dashboard view
-        window.location.href = "/dashboard-page";
+        // FIXED: Redirects directly to Netlify's dashboard.html file
+        window.location.href = "/dashboard.html";
 
     } catch (err) {
         console.error(err);
@@ -78,7 +79,8 @@ document.querySelector("#signup-form").addEventListener("submit", async (e) => {
     const password  = document.querySelector("#signup-password").value;
 
     try {
-        const res  = await fetch(`${API_BASE}/auth/register`, {
+        // FIXED: Added /api prefix
+        const res  = await fetch(`${API_BASE_URL}/api/auth/register`, {
             method  : "POST",
             headers : { "Content-Type": "application/json" },
             body    : JSON.stringify({ full_name, email, password }),
@@ -103,6 +105,6 @@ document.querySelector("#signup-form").addEventListener("submit", async (e) => {
 // ================= LOGOUT (FIXED FALLBACK) =================
 function logout() {
     token.clear();
-    // Bounces cleanly back to the root website layout safely
-    window.location.href = "/";
+    // FIXED: Bounces safely back to Netlify's index landing page layout
+    window.location.href = "/index.html";
 }
