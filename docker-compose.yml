@@ -1,0 +1,69 @@
+services:
+
+  # ─── FastAPI Application ──────────────────────────────────
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medicosync_api
+    ports:
+      - "8000:8000"
+    # This reads your local backend secrets to use inside the container mesh
+    env_file:
+      - ./backend/.env
+    environment:
+      - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/medicosync
+      - DB_CONNECTION=postgresql+psycopg_async://postgres:postgres@db:5432/medicosync
+      - AWS_ENDPOINT_URL=http://minio:9000
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    volumes:
+      - ./backend:/app
+      # CRUCIAL FIX: This anonymous volume blocks your local host .env 
+      # files from clashing with container-side configurations
+      - ./backend/.env:/app/.env
+      - ./backend/.env.example:/app/.env.example
+      - ./frontend:/frontend
+    restart: unless-stopped
+
+  # ─── PostgreSQL Database ──────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: medicosync_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: medicosync
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ─── MinIO Object Storage ─────────────────────────────────
+  minio:
+    image: quay.io/minio/minio
+    container_name: medicosync_minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+
+# ─── Persistent Volumes ───────────────────────────────────
+volumes:
+  postgres_data:
+  minio_data:
