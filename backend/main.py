@@ -47,18 +47,24 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 #====================================
 # Static File System Mounting
 #====================================
 backend_root = Path(__file__).resolve().parent
-frontend_root = backend_root.parent / "frontend"
+
+# Check if running inside Docker container root path first
+if Path("/frontend").exists():
+    frontend_root = Path("/frontend")
+else:
+    # Fallback pathing rules for local development outside Docker
+    frontend_root = backend_root.parent / "frontend"
 
 # 1. Mount the core static subfolder (Maps /static/css/... and /static/js/...)
 app.mount("/static", StaticFiles(directory=str(frontend_root / "static")), name="static")
 
 # 2. Mount the image pool assets directory (Maps /img/...)
 app.mount("/img", StaticFiles(directory=str(frontend_root / "img")), name="img")
+
 
 #====================================
 # Root Static Route (Landing Page)
