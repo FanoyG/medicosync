@@ -1,0 +1,21 @@
+Test Cases Table
+#   | Endpoint              | Scenario              | Expected
+----|----------------------|----------------------|----------
+1   | POST /auth/register  | Valid data            | 201
+2   | POST /auth/register  | Duplicate email       | 409
+3   | POST /auth/register  | Invalid email format  | 422
+4   | POST /auth/login     | Valid credentials     | 200 + token
+5   | POST /auth/login     | Wrong password        | 401
+6   | POST /auth/login     | Email not found       | 401
+7   | POST /patients/      | Valid + auth          | 201
+8   | POST /patients/      | No token              | 401
+9   | POST /patients/      | Duplicate patient     | 400
+10  | GET  /patients/      | Returns doctor's list | 200
+11  | GET  /patients/{id}  | Valid ID              | 200
+12  | GET  /patients/{id}  | Other doctor's patient| 404
+13  | DELETE /patients/{id}| Valid delete          | 204
+14  | POST /records/       | Valid file upload     | 201
+15  | POST /shares         | Valid share link      | 201
+16  | POST /shares/verify  | Correct OTP           | 200
+17  | POST /shares/verify  | Wrong OTP 3 times     | link locked
+18  | GET  /dashboard      | Authenticated         | 200 + counts
