@@ -43,8 +43,8 @@ document.querySelector("#login-form").addEventListener("submit", async (e) => {
     const password = document.querySelector("#login-password").value;
 
     try {
-        // FIXED: Added /api prefix
-        const res  = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        // FIXED: Added  prefix
+        const res  = await fetch(`${API_BASE_URL}/auth/login`, {
             method  : "POST",
             headers : { "Content-Type": "application/json" },
             body    : JSON.stringify({ email, password }),
@@ -79,8 +79,8 @@ document.querySelector("#signup-form").addEventListener("submit", async (e) => {
     const password  = document.querySelector("#signup-password").value;
 
     try {
-        // FIXED: Added /api prefix
-        const res  = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        // FIXED: Added  prefix
+        const res  = await fetch(`${API_BASE_URL}/auth/register`, {
             method  : "POST",
             headers : { "Content-Type": "application/json" },
             body    : JSON.stringify({ full_name, email, password }),
