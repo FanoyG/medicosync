@@ -36,13 +36,7 @@ app = FastAPI(
 #====================================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:8000",
-        "http://127.0.0.1:5500", 
-        "http://localhost:3000", 
-        "http://localhost:5173",
-        "http://127.0.0.1:5173"
-    ],
+    allow_origins=["https://medicosync-frontend.netlify.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,49 +44,57 @@ app.add_middleware(
 #====================================
 # Static File System Mounting
 #====================================
-backend_root = Path(__file__).resolve().parent
+# backend_root = Path(__file__).resolve().parent
 
-# Check if running inside Docker container root path first
-if Path("/frontend").exists():
-    frontend_root = Path("/frontend")
-else:
-    # Fallback pathing rules for local development outside Docker
-    frontend_root = backend_root.parent / "frontend"
+# # Check if running inside Docker container root path first
+# if Path("/frontend").exists():
+#     frontend_root = Path("/frontend")
+# else:
+#     # Fallback pathing rules for local development outside Docker
+#     frontend_root = backend_root.parent / "frontend"
 
-# 1. Mount the core static subfolder (Maps /static/css/... and /static/js/...)
-app.mount("/static", StaticFiles(directory=str(frontend_root / "static")), name="static")
+# # 1. Mount the core static subfolder (Maps /static/css/... and /static/js/...)
+# app.mount("/static", StaticFiles(directory=str(frontend_root / "static")), name="static")
 
-# 2. Mount the image pool assets directory (Maps /img/...)
-app.mount("/img", StaticFiles(directory=str(frontend_root / "img")), name="img")
+# # 2. Mount the image pool assets directory (Maps /img/...)
+# app.mount("/img", StaticFiles(directory=str(frontend_root / "img")), name="img")
 
 
 #====================================
 # Root Static Route (Landing Page)
 #====================================
-@app.get("/")
-async def read_index():
-    """Serves the index.html layout automatically at http://127.0.0.1:8000"""
-    frontend_target_path = frontend_root / "index.html"
-    
-    if not frontend_target_path.is_file():
-        logger.error(f"Static route root lookup break. Index asset absent at: {frontend_target_path}")
-        raise HTTPException(status_code=404, detail="Landing page layout file missing.")
-        
-    return FileResponse(str(frontend_target_path))
+# @app.get("/")
+# async def read_index():
+#     """Serves the index.html layout automatically at http://127.0.0.1:8000"""
+#     frontend_target_path = frontend_root / "index.html"
+#     
+#     if not frontend_target_path.is_file():
+#         logger.error(f"Static route root lookup break. Index asset absent at: {frontend_target_path}")
+#         raise HTTPException(status_code=404, detail="Landing page layout file missing.")
+#         
+#     return FileResponse(str(frontend_target_path))
 
 #====================================
 # Dashboard Static Route
 #====================================
-@app.get("/dashboard-page")
-async def dashboard():
-    """Serves the dashboard.html layout safely using pathlib objects."""
-    frontend_target_path = frontend_root / "dashboard.html"
-    
-    if not frontend_target_path.is_file():
-        logger.error(f"Static route lookup break. Target asset absent at: {frontend_target_path}")
-        raise HTTPException(status_code=404, detail="Dashboard interface file missing.")
-        
-    return FileResponse(str(frontend_target_path))
+# @app.get("/dashboard-page")
+# async def dashboard():
+#     """Serves the dashboard.html layout safely using pathlib objects."""
+#     frontend_target_path = frontend_root / "dashboard.html"
+#     
+#     if not frontend_target_path.is_file():
+#         logger.error(f"Static route lookup break. Target asset absent at: {frontend_target_path}")
+#         raise HTTPException(status_code=404, detail="Dashboard interface file missing.")
+#         
+#     return FileResponse(str(frontend_target_path))
+
+#====================================
+# Render Production Health Endpoint
+#====================================
+@app.get("/")
+async def production_health():
+    """Fallback root point ensuring container health checks pass on Render"""
+    return {"status": "healthy", "service": "MedicoSync API Platform"}
  
 #====================================
 # Include Router Blueprint Bundles
