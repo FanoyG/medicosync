@@ -225,7 +225,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
-      const API_BASE_URL = "https://onrender.com";
+      const API_BASE_URL = "https://medicosync-backend.onrender.com";
       const token = localStorage.getItem('access_token');
       
       if (!token) {
@@ -262,13 +262,13 @@
       async function reloadApplicationDataPools() {
         try {
           // 1. Fetch Patients from Backend
-          const patientRes = await fetch(`${API_BASE_URL}/patients/`, {
+          const patientRes = await fetch(`${API_BASE_URL}/patients`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const patients = await patientRes.json();
 
           // 2. Fetch Records from Backend
-          const recordRes = await fetch(`${API_BASE_URL}/records/`, {
+          const recordRes = await fetch(`${API_BASE_URL}/records`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           const records = await recordRes.json();
@@ -325,7 +325,7 @@
         const gender = document.getElementById('patientGender').value;
 
         try {
-          const res = await fetch(`${API_BASE_URL}/patients/`, {
+          const res = await fetch(`${API_BASE_URL}/patients`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({ full_name, gender })
@@ -352,7 +352,7 @@
 
         try {
           document.getElementById('logOutput').innerHTML += `<div>⏳ Uploading tracking payload payload...</div>`;
-          const res = await fetch(`${API_BASE_URL}/records/`, {
+          const res = await fetch(`${API_BASE_URL}/records`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData
@@ -372,7 +372,7 @@
         const expire_hours = document.getElementById('hours').value;
 
         try {
-          const res = await fetch(`${API_BASE_URL}/share/`, {
+          const res = await fetch(`${API_BASE_URL}/share`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({ record_id, expire_hours })
