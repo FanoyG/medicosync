@@ -54,6 +54,7 @@ class PatientCreate(BaseModel):
     date_of_birth : date
     gender        : Gender
     blood_group   : str | None = None
+    phone_number  : str | None = None  
 
     @computed_field
     @property
@@ -70,6 +71,7 @@ class PatientOut(BaseModel):
     date_of_birth : date
     gender        : str
     blood_group   : str | None
+    phone_number  : str | None = None  
     created_at    : datetime
 
     model_config = {"from_attributes": True}

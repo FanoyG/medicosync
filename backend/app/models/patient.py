@@ -20,7 +20,8 @@ class Patient(Base):
     date_of_birth: Mapped[date]      = mapped_column(Date, nullable=False)
     blood_group  : Mapped[str]       = mapped_column(String(10), nullable=True)
     created_at   : Mapped[datetime]  = mapped_column(DateTime(timezone=True), server_default=func.now())
-    gender       : Mapped[str] = mapped_column(String(20), nullable=False)
+    gender       : Mapped[str]       = mapped_column(String(20), nullable=False)
+    phone_number : Mapped[str]       = mapped_column(String, nullable=False)
 
     # relationships
     doctor  : Mapped["User"]              = relationship(back_populates="patients")
