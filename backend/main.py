@@ -34,9 +34,15 @@ app = FastAPI(
 #====================================
 # Middleware Configuration Engine
 #====================================
+
+origins = [
+    "http://localhost:3000",
+    "https://medicosync-frontend.netlify.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://medicosync-frontend.netlify.app"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
