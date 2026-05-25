@@ -34,6 +34,7 @@ class UserLogin(BaseModel):
 class TokenOut(BaseModel):
     access_token : str
     token_type   : str = "bearer"
+    full_name    : str 
 
 class UserOut(BaseModel):
     id         : uuid.UUID

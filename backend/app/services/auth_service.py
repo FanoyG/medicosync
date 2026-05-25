@@ -51,4 +51,4 @@ class UserService:
         token_payload = {"sub": str(user_obj.id), "role" : "doctor"}
         gen_token = create_access_token(data=token_payload)
 
-        return TokenOut(access_token=gen_token, token_type="bearer")
+        return TokenOut(access_token=gen_token, token_type="bearer", full_name=user_obj.full_name)
