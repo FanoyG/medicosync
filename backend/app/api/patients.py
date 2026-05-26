@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.core.dependency import get_current_user
 from app.models.user import User
-from app.schemas.schemas import PatientCreate, PatientOut
+from app.schemas.schemas import PatientCreate, PatientOut, PatientUpdate
 from app.controllers.patient_controller import PatientController
 import uuid
 
@@ -41,12 +41,32 @@ async def get_patient_by_id(
 ):
     return await controller.get_patient_controller(patient_id=id, doctor_id=current_user.id)
 
+
+@patient_router.patch(
+    "/{id}", response_model=PatientOut, status_code=status.HTTP_200_OK
+)
+async def update_patient(
+    id: uuid.UUID,
+    patient_data: PatientUpdate,
+    current_user: User = Depends(get_current_user),
+    controller: PatientController = Depends(get_patient_controller),
+):
+    return await controller.update_patient_controller(
+        patient_id=id,
+        doctor_id=current_user.id,
+        body=patient_data,
+    )
+
+
+# DELETE already in your router — just confirm controller is wired ✅
 @patient_router.delete(
     "/{id}", status_code=status.HTTP_204_NO_CONTENT
 )
 async def remove_patient(
     id: uuid.UUID,
     current_user: User = Depends(get_current_user),
-    controller: PatientController = Depends(get_patient_controller)
+    controller: PatientController = Depends(get_patient_controller),
 ):
-    return await controller.remove_patient_controller(patient_id=id, doctor_id=current_user.id)
+    return await controller.remove_patient_controller(
+        patient_id=id, doctor_id=current_user.id
+    )
