@@ -77,6 +77,16 @@ class PatientOut(BaseModel):
 
     model_config = {"from_attributes": True}
 
+# Add this block after PatientOut
+class PatientUpdate(BaseModel):
+    first_name    : str | None = None
+    last_name     : str | None = None
+    date_of_birth : date | None = None
+    gender        : Gender | None = None
+    blood_group   : str | None = None
+    phone_number  : str | None = None
+
+    model_config = {"from_attributes": True}
 
 # ─── Medical Record ───────────────────────────────────────
 
