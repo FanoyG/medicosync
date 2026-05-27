@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Fixed: Tailwind v4 plugin syntax uses @utility / configuration layers instead of v3 @plugin */
+@utility prose {
+  @apply max-w-none text-foreground;
+}
+
+/* Fixed: Tailwind v4 syntax maps variant changes cleanly across components */
+@variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-border: var(--destructive-border);
+
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --primary: 217 90% 54%;
+  --primary-foreground: 0 0% 100%;
+
+  --background: 0 0% 96%;
+  --foreground: 220 20% 10%;
+
+  --border: 220 15% 88%;
+  --input: 0 0% 100%;
+  --ring: 217 90% 54%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 220 20% 10%;
+  --card-border: 220 15% 91%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 20% 10%;
+  --popover-border: 220 15% 91%;
+
+  --secondary: 217 30% 93%;
+  --secondary-foreground: 220 20% 10%;
+
+  --muted: 220 14% 93%;
+  --muted-foreground: 220 10% 50%;
+
+  --accent: 217 40% 93%;
+  --accent-foreground: 220 20% 10%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 220 20% 10%;
+  --sidebar-border: 220 15% 91%;
+  --sidebar-primary: 217 90% 54%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 217 30% 93%;
+  --sidebar-accent-foreground: 220 20% 10%;
+  --sidebar-ring: 217 90% 54%;
+
+  --app-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --app-font-serif: Georgia, serif;
+  --app-font-mono: 'SF Mono', Menlo, monospace;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --primary: 217 90% 60%;
+  --primary-foreground: 0 0% 100%;
+
+  --background: 220 18% 9%;
+  --foreground: 210 30% 96%;
+
+  --border: 220 16% 18%;
+  --input: 220 16% 14%;
+  --ring: 217 90% 60%;
+
+  --card: 220 16% 13%;
+  --card-foreground: 210 30% 96%;
+  --card-border: 220 16% 18%;
+
+  --popover: 220 16% 13%;
+  --popover-foreground: 210 30% 96%;
+  --popover-border: 220 16% 18%;
+
+  --secondary: 220 16% 18%;
+  --secondary-foreground: 210 30% 96%;
+
+  --muted: 220 16% 18%;
+  --muted-foreground: 215 14% 55%;
+
+  --accent: 220 16% 20%;
+  --accent-foreground: 210 30% 96%;
+
+  --destructive: 0 62% 38%;
+  --destructive-foreground: 0 0% 100%;
+
+  --sidebar: 220 16% 11%;
+  --sidebar-foreground: 210 30% 96%;
+  --sidebar-border: 220 16% 18%;
+  --sidebar-primary: 217 90% 60%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 16% 18%;
+  --sidebar-accent-foreground: 210 30% 96%;
+  --sidebar-ring: 217 90% 60%;
+}
+
+/* Fixed: Tailwind v4 handles core resets natively within the stylesheet context */
+* {
+  border-color: hsl(var(--border));
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--app-font-sans);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* App animations */
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.page-enter {
+  animation: slideUp 0.22s ease-out forwards;
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}

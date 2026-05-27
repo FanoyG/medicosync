@@ -2,78 +2,36 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SignIn&SignUp</title>
-    <link rel="stylesheet" type="text/css" href="./static/css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-  </head> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
+    <title>MedicoSync</title>
+    <meta name="description" content="MedicoSync — The modern platform for doctors to manage patient records securely." />
+    <meta name="robots" content="index, follow" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1a6ff4" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MedicoSync" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- OG -->
+    <meta property="og:title" content="MedicoSync" />
+    <meta property="og:description" content="The modern platform for doctors to manage patient records, collaborate with specialists, and share medical data securely." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MedicoSync" />
+    <meta name="twitter:description" content="The modern platform for doctors to manage patient records securely." />
+  </head>
   <body>
-    <div class="container">
-      <div class="forms-container">
-        <div class="signin-signup">
-          <!-- SIGN IN -->
-          <form id="login-form" class="sign-in-form">
-            <h2 class="title">Sign In</h2>
-
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="email" id="login-email" placeholder="Email" required />
-            </div>
-
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" id="login-password" placeholder="Password" required />
-            </div>
-
-            <input type="submit" value="Login" class="btn solid" />
-          </form>
-
-          <!-- SIGN UP -->
-          <form id="signup-form" class="sign-up-form">
-            <h2 class="title">Sign Up</h2>
-
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" id="signup-fullname" placeholder="Full Name" required />
-            </div>
-
-            <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input type="email" id="signup-email" placeholder="Email" required />
-            </div>
-
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" id="signup-password" placeholder="Password" required />
-            </div>
-
-            <input type="submit" value="Sign Up" class="btn solid" />
-          </form>
-        </div>
-      </div>
-      <div class="panels-container">
-
-        <div class="panel left-panel">
-            <div class="content">
-                <h3>New here?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio minus natus est.</p>
-                <button class="btn transparent" id="sign-up-btn">Sign Up</button>
-            </div>
-            <img src="./img/log.svg" class="image" alt="">
-        </div>
-
-        <div class="panel right-panel">
-            <div class="content">
-                <h3>One of us?</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio minus natus est.</p>
-                <button class="btn transparent" id="sign-in-btn">Sign In</button>
-            </div>
-            <img src="./img/register.svg" class="image" alt="">
-        </div>
-      </div>
-    </div>
-
-    <script src="./static/js/app.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

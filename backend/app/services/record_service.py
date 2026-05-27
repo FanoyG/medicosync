@@ -38,7 +38,7 @@ class RecordService:
             )
 
         # 2. Verify patient exists and belongs to this doctor
-        patient = await self.patient_repo.get_by_id(patient_id)
+        patient = await self.patient_repo.get_by_id(patient_id, doctor_id)
         if not patient or patient.doctor_id != doctor_id:
             raise NotFoundException(detail="Patient not found.")
 
@@ -109,7 +109,7 @@ class RecordService:
     ) -> list[RecordOut]:
 
         # Verify patient ownership first
-        patient = await self.patient_repo.get_by_id(patient_id)
+        patient = await self.patient_repo.get_by_id(patient_id, doctor_id)
         if not patient or patient.doctor_id != doctor_id:
             raise NotFoundException()
 

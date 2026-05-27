@@ -34,3 +34,5 @@ Thumbs.db
 
 # Docker
 *.tar
+
+node_modules/
