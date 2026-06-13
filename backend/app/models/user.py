@@ -7,7 +7,7 @@ from app.core.database import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from . import Patient, MedicalRecord, ShareLink
+    from . import MedicalRecord, ShareLink, DoctorPatientLink
 
 
 class User(Base):
@@ -22,6 +22,6 @@ class User(Base):
     created_at      : Mapped[datetime]  = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     # relationships
-    patients    : Mapped[list["Patient"]]       = relationship(back_populates="doctor", cascade="all, delete-orphan")
-    records     : Mapped[list["MedicalRecord"]] = relationship(back_populates="doctor", cascade="all, delete-orphan")
-    share_links : Mapped[list["ShareLink"]]     = relationship(back_populates="doctor", cascade="all, delete-orphan")
+    patients_link : Mapped[list["DoctorPatientLink"]] = relationship(back_populates="doctor", cascade="all, delete-orphan")
+    records       : Mapped[list["MedicalRecord"]]     = relationship(back_populates="doctor", cascade="all, delete-orphan")
+    share_links   : Mapped[list["ShareLink"]]         = relationship(back_populates="doctor", cascade="all, delete-orphan") 

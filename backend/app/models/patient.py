@@ -8,13 +8,12 @@ from app.core.database import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from . import User, MedicalRecord
+    from . import DoctorPatientLink, MedicalRecord
 
 class Patient(Base):
     __tablename__ = "patients"
 
     id           : Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    doctor_id    : Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
     first_name   : Mapped[str]       = mapped_column(String(100), nullable=False)
     last_name    : Mapped[str]       = mapped_column(String(100), nullable=False)
     date_of_birth: Mapped[date]      = mapped_column(Date, nullable=False)
@@ -22,7 +21,9 @@ class Patient(Base):
     created_at   : Mapped[datetime]  = mapped_column(DateTime(timezone=True), server_default=func.now())
     gender       : Mapped[str]       = mapped_column(String(20), nullable=False)
     phone_number : Mapped[str]       = mapped_column(String, nullable=False)
+    email        : Mapped[str]       = mapped_column(String(255), unique=True, nullable=False, index=True)
+    hash_password : Mapped[str]      = mapped_column(String(255), nullable=True)
 
     # relationships
-    doctor  : Mapped["User"]              = relationship(back_populates="patients")
-    records : Mapped[list["MedicalRecord"]] = relationship(back_populates="patient", cascade="all, delete-orphan")
+    doctor_links  : Mapped[list["DoctorPatientLink"]]   = relationship(back_populates="patients", cascade="all, delete-orphan")
+    records       : Mapped[list["MedicalRecord"]]       = relationship(back_populates="patient", cascade="all, delete-orphan")
