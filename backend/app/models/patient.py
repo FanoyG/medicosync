@@ -25,5 +25,5 @@ class Patient(Base):
     hash_password : Mapped[str]      = mapped_column(String(255), nullable=True)
 
     # relationships
-    doctor_links  : Mapped[list["DoctorPatientLink"]]   = relationship(back_populates="patients", cascade="all, delete-orphan")
+    doctor_links  : Mapped[list["DoctorPatientLink"]]   = relationship(back_populates="patient", cascade="all, delete-orphan")
     records       : Mapped[list["MedicalRecord"]]       = relationship(back_populates="patient", cascade="all, delete-orphan")

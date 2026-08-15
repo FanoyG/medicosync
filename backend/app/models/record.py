@@ -8,7 +8,7 @@ from app.core.database import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from . import Patient, User, ShareLink
+    from . import Patient, User, ShareLink, RecordAccessGrant
 
 
 class MedicalRecord(Base):
@@ -32,3 +32,10 @@ class MedicalRecord(Base):
     patient     : Mapped["Patient"]         = relationship("Patient", back_populates="records")
     doctor      : Mapped["User"]            = relationship("User", back_populates="records")
     share_links : Mapped[list["ShareLink"]] = relationship("ShareLink", back_populates="record", cascade="all, delete-orphan")
+    # Add or update this relationship to match back_populates="access_grants"
+    # ✅ FIX: Match class name "RecordAccessGrant" and property name "record"
+    access_grants: Mapped[list["RecordAccessGrant"]] = relationship(
+        "RecordAccessGrant",
+        back_populates="record", 
+        cascade="all, delete-orphan"
+    )
